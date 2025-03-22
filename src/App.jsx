@@ -173,7 +173,7 @@ export default function App() {
     // Title at top
     ctx.fillStyle = "#000000";
     ctx.font = "16px monospace";
-    const topLabel = "~ My Photos ~";
+    const topLabel = "~ Genesis 4 ~";
     const topLabelWidth = ctx.measureText(topLabel).width;
     ctx.fillText(topLabel, (canvasWidth - topLabelWidth) / 2, 20);
 
@@ -415,7 +415,7 @@ export default function App() {
             Polaroid Strip
           </h2>
           <div style={polaroidContainerStyle}>
-            <div style={polaroidLabelStyle}>~ My Photos ~</div>
+            <div style={polaroidLabelStyle}>~ Genesis 4 ~</div>
             <div
               style={{
                 display: "flex",
