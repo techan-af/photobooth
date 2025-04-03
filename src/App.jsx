@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
+// Preload the logo image once
+const logoImage = new Image();
+logoImage.src = "/logo.png"; // Make sure this file is in your public folder
+
 export default function App() {
   const videoRef = useRef(null);
   const [photos, setPhotos] = useState([]);
@@ -122,16 +126,13 @@ export default function App() {
     ctx.fillText("00:00:56", x + 55, y + 25);
 
     // Battery (top-right)
-    const batteryX = x + w - 70; // adjust as needed
+    const batteryX = x + w - 70;
     const batteryY = y + 15;
     ctx.strokeStyle = "#ffffff";
     ctx.lineWidth = 1;
-    // battery outline
     ctx.strokeRect(batteryX, batteryY, 40, 12);
-    // battery fill (70% full)
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(batteryX, batteryY, 28, 12);
-    // battery tip
     ctx.strokeRect(batteryX + 40, batteryY + 3, 2, 6);
 
     // Date (bottom-left)
@@ -143,11 +144,24 @@ export default function App() {
     const timeText = "Time // 00:00";
     const measure = ctx.measureText(timeText).width;
     ctx.fillText(timeText, x + w - measure - 5, y + h - 10);
+
+    // ---- NEW: Draw the logo in the top-left corner of the photo ----
+    // Adjust the position (x + 5, y + 5) and size (40x40) as needed
+    ctx.drawImage(logoImage, x + 5, y + 5, 40, 40);
   };
 
   // 5) Custom export function with manual overlay
   const exportAsImage = async () => {
     if (photos.length === 0) return;
+
+    // Ensure the logo image is loaded
+    await new Promise((resolve) => {
+      if (logoImage.complete) {
+        resolve();
+      } else {
+        logoImage.onload = resolve;
+      }
+    });
 
     const photoWidth = 320;
     const photoHeight = 180;
@@ -173,7 +187,7 @@ export default function App() {
     // Title at top
     ctx.fillStyle = "#000000";
     ctx.font = "16px monospace";
-    const topLabel = "~ Genesis 4 ~";
+    const topLabel = "~ Rupantaran DDQ Club ~";
     const topLabelWidth = ctx.measureText(topLabel).width;
     ctx.fillText(topLabel, (canvasWidth - topLabelWidth) / 2, 20);
 
@@ -194,16 +208,16 @@ export default function App() {
         img.src = photos[i];
       });
 
-      // Remove filter to draw the overlay in pure color (white corners, red rec)
+      // Remove filter to draw the overlay in pure color (white corners, red REC, and logo)
       ctx.filter = "none";
       drawOverlay(ctx, sideMargin, y, photoWidth, photoHeight);
-      // Reapply filter for next image
+      // Reapply filter for the next image
       ctx.filter = "grayscale(100%) brightness(1.1) contrast(1.2)";
 
       y += photoHeight + gap;
     }
 
-    // Turn off filter for bottom label
+    // Turn off filter for the bottom label
     ctx.filter = "none";
 
     // Bottom label
@@ -322,6 +336,20 @@ export default function App() {
         <div className="absolute bottom-2 right-2 text-white text-xs">
           Time // 00:00
         </div>
+
+        {/* ---- NEW: Show the logo on the live preview ---- */}
+        <img
+          src="/myLogo.png"
+          alt="Logo"
+          style={{
+            position: "absolute",
+            top: "5px",
+            left: "5px",
+            width: "40px",
+            height: "40px",
+            pointerEvents: "none",
+          }}
+        />
       </div>
     );
   };
@@ -372,7 +400,7 @@ export default function App() {
               muted
               className="w-full h-full object-cover"
               style={{
-                filter: "grayscale(100%) brightness(1.1) contrast(1.2)",
+                filter: "grayscale(100%) brightness(1.1) contrast(1.1)",
               }}
             />
             {/* Countdown overlay */}
@@ -415,7 +443,7 @@ export default function App() {
             Polaroid Strip
           </h2>
           <div style={polaroidContainerStyle}>
-            <div style={polaroidLabelStyle}>~ Genesis 4 ~</div>
+            <div style={polaroidLabelStyle}>~ Rupantaran DDQ Club ~</div>
             <div
               style={{
                 display: "flex",
