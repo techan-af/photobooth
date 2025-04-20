@@ -147,7 +147,7 @@ export default function App() {
 
     // ---- NEW: Draw the logo in the top-left corner of the photo ----
     // Adjust the position (x + 5, y + 5) and size (40x40) as needed
-    ctx.drawImage(logoImage, x + 5, y + 5, 40, 40);
+    ctx.drawImage(logoImage, x + 245, y + 20, 70, 40);
   };
 
   // 5) Custom export function with manual overlay
@@ -187,7 +187,7 @@ export default function App() {
     // Title at top
     ctx.fillStyle = "#000000";
     ctx.font = "16px monospace";
-    const topLabel = "~ Rupantaran DDQ Club ~";
+    const topLabel = "~ AIT MUN 2025 ~";
     const topLabelWidth = ctx.measureText(topLabel).width;
     ctx.fillText(topLabel, (canvasWidth - topLabelWidth) / 2, 20);
 
@@ -443,7 +443,7 @@ export default function App() {
             Polaroid Strip
           </h2>
           <div style={polaroidContainerStyle}>
-            <div style={polaroidLabelStyle}>~ Rupantaran DDQ Club ~</div>
+            <div style={polaroidLabelStyle}>~ AIT MUN 2025 ~</div>
             <div
               style={{
                 display: "flex",
